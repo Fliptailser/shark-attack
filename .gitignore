@@ -1,7 +1,9 @@
 .DS_Store
 *.csproj
+*.exe
 *.sln
 *.suo
 Library/
 Temp/
 obj/
+SharkAttack_Data/
