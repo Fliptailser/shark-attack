@@ -9,8 +9,9 @@ public class GameLogic : MonoBehaviour {
 	public GameObject titleCard;
 	public GameObject sharkCard;
 	public GameObject quintCard;
-	// add Shark size text
-	// add Quint energy text
+	public GameObject sharkSizeText;
+	public GameObject quintEnergyText;
+	
 	// add more variables here, and then in Unity put the right object
 	// TODO: find out how to just find objects in the scene or whatever
 	
@@ -40,7 +41,6 @@ public class GameLogic : MonoBehaviour {
 		foreach(Transform child_t in transform){
 			child_t.GetComponentInChildren<UnityEngine.UI.Text>().text = "" + valueList[child_t.gameObject.GetComponent<FishScript>().fishIndex];
 		}
-		
 		
 		ShowFish(false);
 	}
@@ -72,5 +72,15 @@ public class GameLogic : MonoBehaviour {
 	
 	public void OnFishClick(int fishIndex){
 		print(valueList[fishIndex]);
+	}
+	
+	// When they click Quint's sell button
+	public void OnSellClick(){
+		
+	}
+	
+	// When they click on the "___ wins" at the end (should either exit or go back to the start)
+	public void OnEndGameClick(){
+		
 	}
 }
