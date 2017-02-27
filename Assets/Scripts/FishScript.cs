@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class FishScript : MonoBehaviour {
 
-	public int fishValue;
+	public int fishIndex;
 	
 	public GameLogic gameLogic;
 	
@@ -19,6 +19,6 @@ public class FishScript : MonoBehaviour {
 	}
 	
 	public void OnClick(){
-		gameLogic.OnFishClick(fishValue);
+		gameLogic.OnFishClick(fishIndex);
 	}
 }

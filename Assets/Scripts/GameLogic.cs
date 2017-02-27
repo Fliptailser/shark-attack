@@ -4,17 +4,34 @@ using UnityEngine;
 
 public class GameLogic : MonoBehaviour {
 	
+	private int[] valueList = {1,1,1,2,2,2,3,3,4,5,6,7,8,9,11,14};
+	
 	public GameObject titleCard;
 	public GameObject sharkCard;
 	public GameObject quintCard;
-	public GameObject fishPool;
-
+	// add Shark size text
+	// add Quint energy text
+	// add more variables here, and then in Unity put the right object
+	// TODO: find out how to just find objects in the scene or whatever
+	
+	private int sharkSize;
+	private int quintEnergy;
+	
 	// Use this for initialization
 	void Start () {
 		titleCard.SetActive(true);
 		sharkCard.SetActive(false);
 		quintCard.SetActive(false);
-		fishPool.SetActive(false);
+		
+		sharkSize = 3;
+		quintEnergy = 35;
+		
+		foreach(Transform child_t in transform){
+			child_t.GetComponentInChildren<UnityEngine.UI.Text>().text = "" + valueList[child_t.gameObject.GetComponent<FishScript>().fishIndex];
+		}
+		
+		
+		ShowFish(false);
 	}
 	
 	// Update is called once per frame
@@ -29,14 +46,20 @@ public class GameLogic : MonoBehaviour {
 	
 	public void OnSharkClick() {
 		sharkCard.SetActive(false);
-		fishPool.SetActive(true);
+		ShowFish(true);
+	}
+	
+	private void ShowFish(bool visible){
+		foreach (Transform child_t in transform){
+			child_t.gameObject.SetActive(visible);
+		}
 	}
 	
 	public void OnQuintClick() {
 	
 	}
 	
-	public void OnFishClick(int fishValue){
-		print(fishValue);
+	public void OnFishClick(int fishIndex){
+		print(valueList[fishIndex]);
 	}
 }
