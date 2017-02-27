@@ -9,8 +9,12 @@ public class GameLogic : MonoBehaviour {
 	public GameObject titleCard;
 	public GameObject sharkCard;
 	public GameObject quintCard;
+	public GameObject sharkWinCard;
+	public GameObject quintWinCard;
+	
 	public GameObject sharkSizeText;
 	public GameObject quintEnergyText;
+	public GameObject quintSellButton;
 	
 	// add more variables here, and then in Unity put the right object
 	// TODO: find out how to just find objects in the scene or whatever
@@ -34,6 +38,11 @@ public class GameLogic : MonoBehaviour {
 		titleCard.SetActive(true);
 		sharkCard.SetActive(false);
 		quintCard.SetActive(false);
+		sharkWinCard.SetActive(false);
+		quintWinCard.SetActive(false);
+		sharkSizeText.SetActive(false);
+		quintEnergyText.SetActive(false);
+		quintSellButton.SetActive(false);
 		
 		sharkSize = 3;
 		quintEnergy = 35;
@@ -58,6 +67,8 @@ public class GameLogic : MonoBehaviour {
 	public void OnSharkClick() {
 		sharkCard.SetActive(false);
 		ShowFish(true);
+		sharkSizeText.GetComponent<UnityEngine.UI.Text>().text  = "Shark size: " + sharkSize;
+		sharkSizeText.SetActive(true);
 	}
 	
 	private void ShowFish(bool visible){
