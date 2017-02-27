@@ -6,6 +6,9 @@ public class FishScript : MonoBehaviour {
 
 	public int fishIndex;
 	
+	// This state tells who has this Fish right now
+	public enum FishStates { None, Shark, Quint };
+	
 	public GameLogic gameLogic;
 	
 	// Use this for initialization

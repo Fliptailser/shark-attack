@@ -17,6 +17,17 @@ public class GameLogic : MonoBehaviour {
 	private int sharkSize;
 	private int quintEnergy;
 	
+	private int sharkChoiceIndex;
+	private int quintChoideIndex;
+	
+	private bool quintSelling;
+	
+	private int turnNumber;
+	
+	
+	
+	//
+	
 	// Use this for initialization
 	void Start () {
 		titleCard.SetActive(true);
