@@ -6,6 +6,8 @@ using System;
 public class GameLogic : MonoBehaviour {
 	
 	private int[] valueList = {1,1,1,2,2,2,3,3,4,5,6,7,8,9,11,14};
+	private List<int> sharkFish = new List<int>();
+	private List<int> quintFish = new List<int>();
 	
 	public GameObject titleCard;
 	public GameObject sharkCard;
@@ -55,7 +57,7 @@ public class GameLogic : MonoBehaviour {
 			child_t.GetComponentInChildren<UnityEngine.UI.Text>().text = "" + valueList[child_t.gameObject.GetComponent<FishScript>().fishIndex];
 		}
 		
-		ShowFish(false);
+		DisplayFish(false);
 	}
 	
 	// Update is called once per frame
@@ -71,7 +73,7 @@ public class GameLogic : MonoBehaviour {
 	
 	public void OnSharkClick() {
 		sharkCard.SetActive(false);
-		ShowFish(true);  //<TO DO>show only available fish
+		DisplayFish(true);  //<TO DO>show only available fish
 		sharkSizeText.GetComponent<UnityEngine.UI.Text>().text  = "Shark size: " + sharkSize;
 		sharkSizeText.SetActive(true);
 		turn = 0; // shark's turn
@@ -79,7 +81,7 @@ public class GameLogic : MonoBehaviour {
 
 	public void OnQuintClick() {
 		quintCard.SetActive(false);
-		ShowFish(true);  //<TO DO>show only available fish
+		DisplayFish(true);  //<TO DO>show only available fish
 
 		quintEnergyText.GetComponent<UnityEngine.UI.Text>().text  = "Quint Energy: " + quintEnergy;
 		quintEnergyText.SetActive(true);
@@ -88,10 +90,13 @@ public class GameLogic : MonoBehaviour {
 		turn = 1; // Quint's turn
 	}
 	
-	private void ShowFish(bool visible){
+	private void DisplayFish(bool visible){
+		
 		foreach (Transform child_t in transform){
-			child_t.gameObject.SetActive(visible);
-		}
+			int fish_index = child_t.gameObject.GetComponent<FishScript>().fishIndex;
+			bool taken = sharkFish.Contains(fish_index) || quintFish.Contains(fish_index);
+			child_t.gameObject.SetActive(visible && !taken);	
+		}	
 	}
 	
 
@@ -105,7 +110,7 @@ public class GameLogic : MonoBehaviour {
 				sharkSizeText.SetActive (false);
 				sharkChoiceIndex = fishIndex;
 				sharkChoicePower = selectedFishPower;
-				ShowFish (false);
+				DisplayFish (false);
 				quintCard.SetActive (true);
 			}
 		}
@@ -117,7 +122,7 @@ public class GameLogic : MonoBehaviour {
 					quintSellButton.SetActive(false);
 					quintChoiceIndex = fishIndex;
 					quintChoicePower = selectedFishPower;
-					ShowFish (false);
+					DisplayFish (false);
 					if (sharkChoiceIndex == quintChoiceIndex) {
 						
 						if (sharkSize >= quintEnergy) {
@@ -129,7 +134,9 @@ public class GameLogic : MonoBehaviour {
 					} else {
 						//<TO DO> Set sharkChoiceIndex fish as taken by shark
 						//<TO DO> Set quintChoiceIndex fish as taken by quint
-
+						sharkFish.Add(sharkChoiceIndex);
+						quintFish.Add(quintChoiceIndex);
+						
 						//<TO DO> IF NO MORE FISH LEFT, END GAME
 
 						sharkSize = sharkSize + sharkChoicePower;
@@ -147,14 +154,17 @@ public class GameLogic : MonoBehaviour {
 				quintSellButton.SetActive(false);
 				quintChoiceIndex = fishIndex;
 				quintChoicePower = selectedFishPower;
-				ShowFish (false);
+				DisplayFish (false);
 			
 				//<TO DO> Set sharkChoiceIndex fish as taken by shark
 				//<TO DO> Set quintChoiceIndex fish as RELEASED
+				sharkFish.Add(sharkChoiceIndex);
+				quintFish.Add(quintChoiceIndex);
+				
 				sharkSize = sharkSize + sharkChoicePower;
 				quintEnergy = quintEnergy + quintChoicePower; //temporary until we fix the line below
 				//<TO DO> I don't know how to get this working: quintEnergy = Math.Max(quintEnergy + Math.Floor(quintChoicePower*1.5), 35) ;
-				ShowFish (false);
+				DisplayFish (false);
 				sharkCard.SetActive (true);
 			}
 
