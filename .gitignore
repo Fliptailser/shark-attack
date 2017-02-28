@@ -6,4 +6,4 @@
 Library/
 Temp/
 obj/
-SharkAttack_Data/
+*_Data/
