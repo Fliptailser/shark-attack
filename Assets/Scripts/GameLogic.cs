@@ -9,6 +9,8 @@ public class GameLogic : MonoBehaviour {
 	private List<int> sharkFish = new List<int>();
 	private List<int> quintFish = new List<int>();
 	
+	private int QUINT_MAX_ENERGY = 35;
+	
 	public GameObject titleCard;
 	public GameObject sharkCard;
 	public GameObject quintCard;
@@ -73,7 +75,7 @@ public class GameLogic : MonoBehaviour {
 	
 	public void OnSharkClick() {
 		sharkCard.SetActive(false);
-		DisplayFish(true);  //<TO DO>show only available fish
+		DisplayFish(true);  
 		sharkSizeText.GetComponent<UnityEngine.UI.Text>().text  = "Shark size: " + sharkSize;
 		sharkSizeText.SetActive(true);
 		turn = 0; // shark's turn
@@ -81,7 +83,7 @@ public class GameLogic : MonoBehaviour {
 
 	public void OnQuintClick() {
 		quintCard.SetActive(false);
-		DisplayFish(true);  //<TO DO>show only available fish
+		DisplayFish(true);  
 
 		quintEnergyText.GetComponent<UnityEngine.UI.Text>().text  = "Quint Energy: " + quintEnergy;
 		quintEnergyText.SetActive(true);
@@ -99,7 +101,13 @@ public class GameLogic : MonoBehaviour {
 		}	
 	}
 	
-
+	private void DisplayQuintFish(){
+		foreach (Transform child_t in transform){
+			int fish_index = child_t.gameObject.GetComponent<FishScript>().fishIndex;
+			bool taken = quintFish.Contains(fish_index);
+			child_t.gameObject.SetActive(taken);	
+		}	
+	}
 	
 	public void OnFishClick(int fishIndex){
 		print (valueList [fishIndex]);
@@ -132,12 +140,11 @@ public class GameLogic : MonoBehaviour {
 							quintWinCard.SetActive (true);
 						}
 					} else {
-						//<TO DO> Set sharkChoiceIndex fish as taken by shark
-						//<TO DO> Set quintChoiceIndex fish as taken by quint
 						sharkFish.Add(sharkChoiceIndex);
 						quintFish.Add(quintChoiceIndex);
 						
 						//<TO DO> IF NO MORE FISH LEFT, END GAME
+						// If we make the number of fish odd instead of even, the lowest number of fish would be 1, would be perfect.
 
 						sharkSize = sharkSize + sharkChoicePower;
 						quintEnergy = quintEnergy - quintChoicePower;
@@ -156,16 +163,18 @@ public class GameLogic : MonoBehaviour {
 				quintChoicePower = selectedFishPower;
 				DisplayFish (false);
 			
-				//<TO DO> Set sharkChoiceIndex fish as taken by shark
-				//<TO DO> Set quintChoiceIndex fish as RELEASED
 				sharkFish.Add(sharkChoiceIndex);
-				quintFish.Add(quintChoiceIndex);
+				quintFish.Remove(quintChoiceIndex);
 				
 				sharkSize = sharkSize + sharkChoicePower;
-				quintEnergy = quintEnergy + quintChoicePower; //temporary until we fix the line below
-				//<TO DO> I don't know how to get this working: quintEnergy = Math.Max(quintEnergy + Math.Floor(quintChoicePower*1.5), 35) ;
+				
+				quintEnergy = Math.Min(quintEnergy + (int)(quintChoicePower*1.5), QUINT_MAX_ENERGY);
+				
+				sell = false;
+				
 				DisplayFish (false);
 				sharkCard.SetActive (true);
+				
 			}
 
 		}
@@ -173,8 +182,18 @@ public class GameLogic : MonoBehaviour {
 	
 	// When they click Quint's sell button
 	public void OnSellClick(){
-		sell = true;
-		//<TO DO> DEACTIVATE REGULAR FISH AND SHOW FISH OWNED BY QUINT
+		sell = !sell;
+		
+		if(sell){
+			DisplayFish(false);
+		
+			DisplayQuintFish();
+		}else{
+			DisplayFish(true);
+		}
+		
+		
+
 	}
 	
 	// When they click on the "___ wins" at the end (should either exit or go back to the start)
