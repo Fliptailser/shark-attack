@@ -114,7 +114,7 @@ public class GameLogic : MonoBehaviour {
 		selectedFishPower = valueList [fishIndex];
 		if (turn == 0) { 
 			
-			if (sharkSize >= selectedFishPower) {
+			if (sharkSize > selectedFishPower) {
 				sharkSizeText.SetActive (false);
 				sharkChoiceIndex = fishIndex;
 				sharkChoicePower = selectedFishPower;
@@ -125,7 +125,7 @@ public class GameLogic : MonoBehaviour {
 		if (turn == 1) {
 			
 			if (sell == false) {
-				if (quintEnergy > selectedFishPower) {
+				if (quintEnergy >= selectedFishPower) {
 					quintEnergyText.SetActive (false);
 					quintSellButton.SetActive(false);
 					quintChoiceIndex = fishIndex;
