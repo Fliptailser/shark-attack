@@ -11,3 +11,7 @@ Shark starts weak and tries to evade getting caught until they're confident they
 ###Problems
 
 Quint has more control over the game at the moment: He can manipulate fish, whereas Shark just eats a fish every turn. Shark needs some sort of ability.
+
+##Feb.27
+
+Implemented game functionality. Currently the features of random starting stats is not yet implemented. No other game design changes yet.
